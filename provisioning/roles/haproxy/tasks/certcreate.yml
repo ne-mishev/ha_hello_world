@@ -12,7 +12,7 @@
 
 - name: CERTBOT | Create letsencrypt certs
   shell: certbot certonly --standalone --preferred-challenges http --http-01-port 80 -d {{ letsencrypt_default_domain }} --register-unsafely-without-email --agree-tos
-  when: not certdir.stat.isdir
+  when: certdir.stat.isdir is not defined or not certdir.stat.isdir
 - name: HAPROXY | Set fact haproxy_certs
   set_fact:
     haproxy_certs: "{{ letsencrypt_haproxy_certs }}"
